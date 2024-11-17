@@ -29,7 +29,7 @@ public class OrderItemController {
     public void setData(Order order) {
         this.clientName = order.getClient().getName();
         this.orderId = order.getOrderNumber();
-        this.pizzaList = FXCollections.observableArrayList(order.getPizzas()); // Зберігаємо піци
+        this.pizzaList = order.getPizzas(); // Зберігаємо піци
 
         orderText.setText(clientName);
 

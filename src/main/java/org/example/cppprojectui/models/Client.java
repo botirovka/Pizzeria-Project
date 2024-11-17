@@ -1,5 +1,6 @@
 package org.example.cppprojectui.models;
 
+import javafx.collections.FXCollections;
 import org.example.cppprojectui.data.DataService;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class Client {
             pizzas.add(new Pizza(randomPizza.getName(), PizzaState.Awaiting_Preparation, time));
         }
 
-        this.order = new Order(pizzas, this, clientQueueSize);
+        this.order = new Order(FXCollections.observableArrayList(pizzas), this, clientQueueSize);
     }
 
 

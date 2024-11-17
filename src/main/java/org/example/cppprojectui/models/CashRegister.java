@@ -69,7 +69,7 @@ public class CashRegister implements Runnable {
         order.getState();
         System.out.println("Каса " + id + " обробляє клієнта: " + client.getName());
         try {
-            Thread.sleep(15000); // Симулюємо час на обробку 15 секунд
+            Thread.sleep(1); // Симулюємо час на обробку 15 секунд
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }

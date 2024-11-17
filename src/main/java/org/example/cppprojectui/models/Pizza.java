@@ -1,27 +1,33 @@
 package org.example.cppprojectui.models;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+
 public class Pizza {
     private String name;
-    private PizzaState state;
     private int cookingTime;
-    private PizzaStateObserver observer;
+    private SimpleObjectProperty<PizzaState> state;
 
     public Pizza(String name, PizzaState state, int cookingTime) {
         this.name = name;
-        this.state = state;
+        this.state = new SimpleObjectProperty<>(state);
         this.cookingTime = cookingTime;
+    }
+
+    public ObjectProperty<PizzaState> stateProperty() {
+        return state;
     }
 
     public String getName(){
         return name;
     }
 
-    public PizzaState getState(){
-        return state;
+    public PizzaState getState() {
+        return state.get();
     }
 
     public void setState(PizzaState state) {
-        this.state = state;
+        this.state.set(state);
     }
 
     public int getCookingTime(){

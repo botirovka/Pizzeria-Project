@@ -1,9 +1,11 @@
 package org.example.cppprojectui.models;
 
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 
 public class Order {
-    private ArrayList<Pizza> pizzas;
+    private ObservableList<Pizza> pizzas;
     private Client client;
     private int orderNumber;
     private OrderState currentState;
@@ -13,7 +15,7 @@ public class Order {
         //delete
     }
 
-    public Order(ArrayList<Pizza> pizzas, Client client, int orderNumber) {
+    public Order(ObservableList<Pizza> pizzas, Client client, int orderNumber) {
         this.pizzas = pizzas;
         this.client = client;
         this.orderNumber = orderNumber;
@@ -28,7 +30,7 @@ public class Order {
         this.observer = null;
     }
 
-    public ArrayList<Pizza> getPizzas() {
+    public ObservableList<Pizza> getPizzas() {
         return pizzas;
     }
 
