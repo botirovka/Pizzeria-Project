@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pizza.controller.CustomerItemController">
+   <children>
+      <HBox prefHeight="18.0" prefWidth="265.0" styleClass="pizza-type-background">
+         <children>
+            <Label fx:id="customer_label" prefHeight="25.0" prefWidth="247.0" style="-fx-text-fill: #2d4739;" text="Customer" />
+            <Button onAction="#toggleCustomerInfo" styleClass="arrow-button">
+               <graphic>
+                  <ImageView fx:id="arrow_image_customer" fitHeight="20" fitWidth="20">
+                     <image>
+                        <Image url="@drawable/triangle_down_icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <VBox fx:id="customer_info_vb" prefHeight="159.0" prefWidth="265.0" spacing="5" styleClass="pizza-type-background" />
+   </children>
+</VBox>
