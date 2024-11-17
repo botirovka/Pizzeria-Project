@@ -23,7 +23,7 @@ public class MainController {
     private int cooksAmount;
     private OrdersController ordersController;
 
-    // Кешуємо завантажені view
+    // Зберігаємо завантажені view
     private Node ordersView;
     private Node cooksView;
 

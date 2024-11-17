@@ -18,26 +18,6 @@
             <ScrollPane layoutX="4.0" layoutY="-2.0" prefHeight="650.0" prefWidth="360.0">
                <content>
                   <VBox fx:id="ordersVBox" prefHeight="644.0" prefWidth="333.0">
-                     <children>
-                            <HBox prefHeight="50.0" prefWidth="320.0" styleClass="clientRow">
-                                <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID 5: Oksana" wrappingWidth="255.0">
-                                        <font>
-                                            <Font size="30.0" />
-                                        </font>
-                                        <HBox.margin>
-                                            <Insets left="15.0" top="5.0" />
-                                        </HBox.margin>
-                                    </Text>
-                                    <Button id="orderDetailsBtn" mnemonicParsing="false" styleClass="buttonInClientRow" text="+">
-                                        <HBox.margin>
-                                            <Insets left="10.0" />
-                                        </HBox.margin>
-                                    </Button>
-                                </children>
-                            </HBox>
-
-                     </children>
                   </VBox>
                </content>
             </ScrollPane>

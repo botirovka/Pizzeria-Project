@@ -1,5 +1,7 @@
 package org.example.cppprojectui.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,20 +10,29 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.example.cppprojectui.models.Order;
+import org.example.cppprojectui.models.Pizza;
+
+import java.util.ArrayList;
 
 public class OrderItemController {
-
     @FXML
     private Text orderText;
 
     @FXML
     private Button detailsButton;
 
-    // Метод для заповнення даних замовлення
-    public void setData(int orderId, String clientName) {
-        orderText.setText("ID " + orderId + ": " + clientName);
+    private int orderId;
+    private String clientName;
+    private ObservableList<Pizza> pizzaList; // Зберігаємо список піц
 
-        // Додайте обробник події для кнопки
+    public void setData(Order order) {
+        this.clientName = order.getClient().getName();
+        this.orderId = order.getOrderNumber();
+        this.pizzaList = FXCollections.observableArrayList(order.getPizzas()); // Зберігаємо піци
+
+        orderText.setText(clientName);
+
         detailsButton.setOnAction(event -> {
             openOrderDetailsWindow();
             System.out.println("Details button clicked for Order ID: " + orderId);
@@ -37,17 +48,24 @@ public class OrderItemController {
 
             OrderdetailsController controller = loader.getController();
 
-            // Створення нового вікна для повідомлення
+            // Встановлюємо дані
+            controller.setOrderText("Order: " + clientName + " Details");
+            controller.setOrderDetails(pizzaList); // Передаємо збережений список піц
+
+            // Створення нового вікна
             Stage orderDetailsStage = new Stage();
-            orderDetailsStage.initModality(Modality.APPLICATION_MODAL); // Встановлення модальності
+            orderDetailsStage.initModality(Modality.APPLICATION_MODAL);
             orderDetailsStage.setTitle("Order: " + orderText.getText() + " Details");
             orderDetailsStage.setScene(new Scene(root));
-            controller.setOrderText("Order: " + orderText.getText() + " Details");
 
-            // Відображення модального вікна та блокування основного вікна
+            // Показуємо вікно
             orderDetailsStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int getOrderId() {
+        return orderId;
     }
 }

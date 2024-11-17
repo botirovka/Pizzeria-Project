@@ -31,18 +31,18 @@ public class ClientGenerator implements Runnable {
             Client newClient = createClient();
             System.out.println("Генератор створив клієнта: " + newClient.getName());
             CashRegister selectedCashRegister = newClient.chooseCashRegister(cashRegisters);
-
+            newClient.createOrder(selectedCashRegister.getOrderId());
             // Додаємо клієнта до черги каси
 
             selectedCashRegister.addClient(newClient);
             System.out.println("Клієнт " + newClient.getName() + " доданий до каси " + selectedCashRegister.getId());
 
-            newClient.createOrder(selectedCashRegister.getOrderId());
+
             ordersController.addOrderToCashRegister(selectedCashRegister.getId(), newClient.getOrder());
             System.out.println(newClient.getOrder());;
             try {
                 // Затримка між створенням клієнтів
-                Thread.sleep(1000); // 10 секунд
+                Thread.sleep(10000); // 10 секунд
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Генератор клієнтів зупинено.");

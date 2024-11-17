@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.example.cppprojectui.models.Order;
 
 import java.io.IOException;
 
@@ -41,7 +42,7 @@ public class CashRegisterController {
 
     }
     @FXML
-    public void addOrder(int orderId, String clientName) {
+    public void addOrder(Order order) {
         Platform.runLater(() -> {
             try {
                 // Завантажуємо шаблон замовлення
@@ -50,17 +51,35 @@ public class CashRegisterController {
 
                 // Налаштування даних замовлення
                 OrderItemController controller = loader.getController();
-                controller.setData(orderId, clientName);
+                controller.setData(order);
+
+                // Збереження контролера в userData
+                orderNode.setUserData(controller);
 
                 // Додавання замовлення до VBox
                 ordersVBox.getChildren().add(orderNode);
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    //openOrderDetailsWindow
+    @FXML
+    public void removeOrder(int orderId) {
+        Platform.runLater(() -> {
+            for (Node node : ordersVBox.getChildren()) {
+                if (node != null) {
+                    OrderItemController controller = (OrderItemController) node.getUserData();
+                    if (controller != null && controller.getOrderId() == orderId) {
+                        ordersVBox.getChildren().remove(node);
+                        break;
+                    }
+                }
+            }
+        });
+    }
 
 
 }

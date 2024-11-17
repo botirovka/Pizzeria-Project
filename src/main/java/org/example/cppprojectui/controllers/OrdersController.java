@@ -1,5 +1,6 @@
 package org.example.cppprojectui.controllers;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,17 +12,22 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.cppprojectui.models.Order;
+import org.example.cppprojectui.models.OrderState;
+import org.example.cppprojectui.models.OrderStateObserver;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class OrdersController {
+public class OrdersController implements OrderStateObserver {
 
     @FXML
     private Pane cashRegistersPane;
 
     private List<CashRegisterController> cashRegisterControllers = new ArrayList<>();
+    private Map<Integer, Integer> orderToCashRegisterMap = new HashMap<>();
 
     public void setCashRegistersAmount(int cashRegistersAmount) {
         addCashRegisters(cashRegistersAmount);
@@ -51,11 +57,32 @@ public class OrdersController {
 
     public void addOrderToCashRegister(int cashRegisterIndex, Order order) {
         if (cashRegisterIndex < cashRegisterControllers.size()) {
-            cashRegisterControllers.get(cashRegisterIndex).addOrder(order.getOrderNumber(), order.getClient().getName());
+            cashRegisterControllers.get(cashRegisterIndex).addOrder(order);
+            order.setStateObserver(this);
+            orderToCashRegisterMap.put(order.getOrderNumber(), cashRegisterIndex);
         } else {
             System.out.println("Invalid cash register index");
         }
     }
 
+    public void deleteOrderfromCashRegister(int cashRegisterIndex, Order order) {
+        if (cashRegisterIndex < cashRegisterControllers.size()) {
+            cashRegisterControllers.get(cashRegisterIndex).removeOrder(order.getOrderNumber());
+        } else {
+            System.out.println("Invalid cash register index");
+        }
+    }
+
+    @Override
+    public void onStateChanged(Order order, OrderState newState) {
+        if (newState == OrderState.Done) {
+                Integer cashRegisterIndex = orderToCashRegisterMap.get(order.getOrderNumber());
+                if (cashRegisterIndex != null) {
+                    deleteOrderfromCashRegister(cashRegisterIndex, order);
+                    orderToCashRegisterMap.remove(order.getOrderNumber());
+                    order.removeStateObserver();
+                }
+        }
+    }
 }
 

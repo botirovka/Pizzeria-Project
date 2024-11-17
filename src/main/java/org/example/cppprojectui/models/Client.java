@@ -11,7 +11,6 @@ public class Client {
     private String name;
     private final Random random = new Random();
     private Order order;
-    private DataService dataService;
 
     public Client(String name) {
         this.name = name;
@@ -26,9 +25,11 @@ public class Client {
     }
 
     public void createOrder(int clientQueueSize){
+        Menu menu = Menu.getInstance(null);
+
         int pizzaCount = random.nextInt(1, 6); // Випадкова кількість піц (1 до 5)
         ArrayList<Pizza> pizzas = new ArrayList<>();
-        List<Pizza> availablePizzas = DataService.getPizzaList();
+        List<Pizza> availablePizzas = menu.getPizzas();
         //TO DO
         //ЧАС
         int time = 30;
@@ -45,10 +46,10 @@ public class Client {
 
     public CashRegister chooseCashRegister(List<CashRegister> cashRegisters){
         // Порівнюємо каси за кількістю клієнтів, якщо кількість однакова, то за id
-        CashRegister chosenRegister = cashRegisters.stream()
+        // Якщо список порожній, повертається null
+        return cashRegisters.stream()
                 .min(Comparator.comparingInt((CashRegister r) -> r.getClientQueueSize())
                         .thenComparingInt(r -> r.getId()))
-                .orElse(null); // Якщо список порожній, повертається null
-        return chosenRegister;
+                .orElse(null);
     }
 }

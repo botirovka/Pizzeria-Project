@@ -6,6 +6,8 @@ public class Order {
     private ArrayList<Pizza> pizzas;
     private Client client;
     private int orderNumber;
+    private OrderState currentState;
+    private OrderStateObserver observer;
 
     public Order(){
         //delete
@@ -15,11 +17,21 @@ public class Order {
         this.pizzas = pizzas;
         this.client = client;
         this.orderNumber = orderNumber;
+        this.currentState = OrderState.Waiting;
+    }
+
+    public void setStateObserver(OrderStateObserver observer) {
+        this.observer = observer;
+    }
+
+    public void removeStateObserver() {
+        this.observer = null;
     }
 
     public ArrayList<Pizza> getPizzas() {
         return pizzas;
     }
+
     public OrderState getState() {
         int states = 0;
         for(Pizza pizza : pizzas) {
@@ -30,10 +42,27 @@ public class Order {
                 ++states;
             }
         }
+        OrderState newState;
+        if (states == pizzas.size()) {
+            newState = OrderState.Done;
+        } else if (states > pizzas.size()) {
+            newState = OrderState.In_Progress;
+        } else {
+            newState = OrderState.Waiting;
+        }
 
-        if (states == pizzas.size()) { return OrderState.Done; }
-        if (states > pizzas.size())  { return OrderState.In_Progress; }
-        return OrderState.Waiting;
+        if (currentState != newState) {
+            currentState = newState;
+            notifyStateChanged(newState);
+        }
+
+        return currentState;
+    }
+
+    private void notifyStateChanged(OrderState newState) {
+        if (observer != null) {
+            observer.onStateChanged(this, newState);
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ public class Pizza {
     private String name;
     private PizzaState state;
     private int cookingTime;
+    private PizzaStateObserver observer;
 
     public Pizza(String name, PizzaState state, int cookingTime) {
         this.name = name;

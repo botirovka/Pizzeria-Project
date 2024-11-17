@@ -11,22 +11,22 @@ public class Cook {
         this.state = state;
     }
 
-    public void preparePizza(Pizza pizza) {
+    public static void preparePizza(Pizza pizza) {
         try {
             // Симуляція процесу приготування
-            setState(CookState.Active);
-            Thread.sleep(1000); // Підготовка тіста
+            //setState(CookState.Active);
+            Thread.sleep(100); // Підготовка тіста
 
             pizza.setState(PizzaState.Preparing_Dough);
 
             pizza.setState(PizzaState.Adding_Ingredients);
-            Thread.sleep(1000); // Додавання інгредієнтів
+            Thread.sleep(100); // Додавання інгредієнтів
 
             pizza.setState(PizzaState.Baking);
-            Thread.sleep(pizza.getCookingTime() * 1000); // Випікання
+            Thread.sleep(pizza.getCookingTime() * 100); // Випікання
 
             pizza.setState(PizzaState.Packaging);
-            Thread.sleep(500); // Пакування
+            Thread.sleep(50); // Пакування
 
 
             pizza.setState(PizzaState.Ready);

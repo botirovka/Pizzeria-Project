@@ -62,6 +62,11 @@ public class CashRegister implements Runnable {
     // Симуляція обробки клієнта
     private void processClient(Client client) {
         isProccesing = true;
+        Order order = client.getOrder();
+        for(Pizza pizza : order.getPizzas()) {
+            Cook.preparePizza(pizza);
+        }
+        order.getState();
         System.out.println("Каса " + id + " обробляє клієнта: " + client.getName());
         try {
             Thread.sleep(15000); // Симулюємо час на обробку 15 секунд
@@ -69,7 +74,9 @@ public class CashRegister implements Runnable {
             Thread.currentThread().interrupt();
         }
         isProccesing = false;
+
         System.out.println("Каса " + id + " завершила обробку клієнта: " + client.getName());
+
     }
 
     public boolean isProccesing() {
